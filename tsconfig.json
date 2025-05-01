@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": "./src",
+    "paths": {
+      "@models/*": ["models/*"],
+      "@errors/*": ["errors/*"],
+      "@controllers/*": ["controllers/*"],
+      "@repositories/*": ["repositories/*"],
+      "@entities/*": ["database/entities/*"],
+      "@constants/*": ["constants/*"],
+      "@utils/*": ["utils/*"],
+      "@redis/*": ["redis/*"],
+      "@config/*": ["config/*"],
+      "@jobs/*": ["jobs/*"],
+      "@validators/*": ["validators/*"],
+      "@middleware/*": ["middleware/*"],
+      "@services/*": ["services/*"],
+      "@routes/*": ["routes/*"]
+    },
+    "target": "ES2020", // Ensure target is ES2020 or higher
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false, // Optional: Helps with TypeORM entities
+    "module": "CommonJS", // or ESNext
+    "lib": ["ES2020", "DOM"],
+    "esModuleInterop": true,
+    "skipLibCheck": true // Optional: Helps prevent type mismatches with libraries
+  },
+  "include": ["./src/**/*", "ecosystem.config.js"]
+}

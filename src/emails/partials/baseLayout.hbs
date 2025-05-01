@@ -1,0 +1,39 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+    <link
+      href="https://db.onlinewebfonts.com/c/8611cf274fd66935b8f771ac84029521?family=Matter+SQ+Regular"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    style="
+      font-family: Tahoma, sans-serif;
+      font-size: 14px;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      font-weight: 400;
+      color: var(--clr-dark-500);
+      line-height: inherit;
+    "
+  >
+    <div
+      style="
+        --max-width: 600px;
+        --padding: 1rem;
+        width: min(var(--max-width), 100% - (var(--padding) * 2));
+        margin-inline: auto;
+        margin-top: 2em;
+      "
+    >
+      <table>
+        <tbody>
+          {{{body}}}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
