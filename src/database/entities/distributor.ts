@@ -8,12 +8,10 @@ import {
   DeleteDateColumn,
 } from "typeorm";
 import { Product } from "./product";
+import { BaseEntity } from "./base.entity";
 
 @Entity()
-export class Distributor {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Distributor extends BaseEntity {
   @Column()
   name: string;
 
@@ -28,13 +26,4 @@ export class Distributor {
 
   @OneToMany(() => Product, (product) => product)
   products: Product[];
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn({ nullable: true })
-  deletedAt?: Date;
 }

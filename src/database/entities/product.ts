@@ -3,41 +3,76 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
 } from "typeorm";
 import { Category } from "./category";
+import { Brand } from "./brand";
+import { BaseEntity } from "./base.entity";
+
+export enum ProductStatus {
+  ACTIVE = "active",
+  INACTIVE = "inactive",
+  PENDING = "pending",
+}
 
 @Entity()
-export class Product {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Product extends BaseEntity {
   @Column()
   name: string;
 
-  @Column("text")
+  @Column({ type: "text" })
   description: string;
 
-  @Column("boolean", { default: false })
-  isVisible: boolean;
-
-  @Column("decimal", { precision: 10, scale: 2 })
+  @Column({ type: "decimal", precision: 10, scale: 2 })
   price: number;
 
+  @Column({ type: "decimal", precision: 10, scale: 2, nullable: true })
+  discountedPrice: number;
+
   @Column({ nullable: true })
-  imageUrl: string;
+  image: string;
+
+  @Column("simple-array", { nullable: true })
+  otherImages: string[];
+
+  @Column()
+  stock: number;
 
   @ManyToOne(() => Category, (category) => category.products)
   category: Category;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  @ManyToMany(() => Brand, (brand) => brand.products)
+  @JoinTable({
+    name: "product_brands",
+    joinColumn: {
+      name: "productId",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "brandId",
+      referencedColumnName: "id",
+    },
+  })
+  brands: Brand[];
 
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @ManyToMany(() => Category, (category) => category.products)
+  @JoinTable({
+    name: "product_categories",
+    joinColumn: {
+      name: "productId",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "categoryId",
+      referencedColumnName: "id",
+    },
+  })
+  categories: Category[];
 
-  @DeleteDateColumn({ nullable: true })
-  deletedAt?: Date;
+  @Column({ type: "enum", enum: ProductStatus })
+  status: ProductStatus;
 }

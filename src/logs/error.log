@@ -52,3 +52,5 @@
 [2025-03-16 05:00:28] error: Internal Server Error - Expected double-quoted property name in JSON at position 136 (line 7 column 1)
 [2025-03-16 05:08:48] error: Internal Server Error - Expected double-quoted property name in JSON at position 189 (line 7 column 1)
 [2025-04-27 23:46:21] error: Internal Server Error - Not allowed by CORS
+[2025-05-03 02:16:08] error: Internal Server Error - Cannot read properties of undefined (reading 'create')
+[2025-05-03 02:18:42] error: Internal Server Error - Product not found

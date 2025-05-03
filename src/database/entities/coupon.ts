@@ -6,12 +6,10 @@ import {
   DeleteDateColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { BaseEntity } from "./base.entity";
 
 @Entity()
-export class Coupon {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Coupon extends BaseEntity {
   @Column({ type: "varchar", length: 255 })
   code: string;
 
@@ -29,13 +27,4 @@ export class Coupon {
 
   @Column({ type: "int", default: 0 })
   timesUsed: number;
-
-  @DeleteDateColumn({ nullable: true })
-  deletedAt?: Date;
-
-  @CreateDateColumn({ nullable: true })
-  createdAt?: Date;
-
-  @UpdateDateColumn({ nullable: true })
-  updatedAt?: Date;
 }

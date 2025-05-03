@@ -1,50 +1,60 @@
 import "reflect-metadata";
 import { runSeeder } from "typeorm-extension";
-import { AppDataSource } from "../../ormconfig";
-import NotificationSeeder from "./notification-seeder";
-import OrderSeeder from "./order-seeder";
-import ProductCategorySeeder from "./product-category-seeder";
-import ProductSeeder from "./product-seeder";
-import CouponSeeder from "./coupon-seeder";
-import OrderItemSeeder from "./order-item-seeder";
-import ProjectSeeder from "./project-seeder";
-import DistributorSeeder from "./distributor-seeder";
-import GallerySeeder from "./gallery-seeder";
-import PaymentSeeder from "./payment-seeder";
-import PaymentIntentSeeder from "./payment-intent-seeder";
-import CustomerSeeder from "./customer-seeder";
-import UserSeeder from "./admin-seeder";
+import { AppDataSource } from "../../config/ormconfig";
+import ProductCategorySeeder from "./product-category.seeder";
+import BrandSeeder from "./brand.seeder";
+import ProductSeeder from "./product.seeder";
+import CustomerSeeder from "./customer.seeder";
+import CartSeeder from "./cart-seeder";
+import NotificationSeeder from "./notification.seeder";
+import OrderSeeder from "./order.seeder";
+import CouponSeeder from "./coupon.seeder";
+import OrderItemSeeder from "./order-item.seeder";
+import ProjectSeeder from "./project.seeder";
+import DistributorSeeder from "./distributor.seeder";
+import GallerySeeder from "./gallery.seeder";
+import PaymentSeeder from "./payment.seeder";
+import PaymentIntentSeeder from "./payment-intent.seeder";
+import UserSeeder from "./admin.seeder";
 
 const runSeeders = async () => {
+  let dataSource: typeof AppDataSource | null = null;
+
   try {
-    await AppDataSource.initialize();
+    dataSource = await AppDataSource.initialize();
     console.log("Data Source has been initialized!");
 
-    await AppDataSource.dropDatabase();
+    await dataSource.dropDatabase();
     console.log("Database schema has been dropped.");
 
-    await AppDataSource.synchronize();
+    await dataSource.synchronize();
     console.log("Database schema has been recreated.");
 
-    await runSeeder(AppDataSource, ProductCategorySeeder);
-    await runSeeder(AppDataSource, ProductSeeder);
-    await runSeeder(AppDataSource, OrderSeeder);
-    await runSeeder(AppDataSource, CustomerSeeder);
-    await runSeeder(AppDataSource, CouponSeeder);
-    await runSeeder(AppDataSource, UserSeeder);
-    await runSeeder(AppDataSource, OrderItemSeeder);
-    await runSeeder(AppDataSource, ProjectSeeder);
-    await runSeeder(AppDataSource, DistributorSeeder);
-    await runSeeder(AppDataSource, GallerySeeder);
-    await runSeeder(AppDataSource, PaymentSeeder);
-    await runSeeder(AppDataSource, PaymentIntentSeeder);
+    await runSeeder(dataSource, ProductCategorySeeder);
+    await runSeeder(dataSource, BrandSeeder);
+    await runSeeder(dataSource, ProductSeeder);
+    await runSeeder(dataSource, CustomerSeeder);
+    await runSeeder(dataSource, UserSeeder);
+    await runSeeder(dataSource, OrderSeeder);
+    await runSeeder(dataSource, CouponSeeder);
+    await runSeeder(dataSource, OrderItemSeeder);
+    await runSeeder(dataSource, ProjectSeeder);
+    await runSeeder(dataSource, DistributorSeeder);
+    await runSeeder(dataSource, GallerySeeder);
+    await runSeeder(dataSource, PaymentSeeder);
+    await runSeeder(dataSource, PaymentIntentSeeder);
+    await runSeeder(dataSource, NotificationSeeder);
+    await runSeeder(dataSource, CartSeeder);
 
     console.log("Seeders have been run successfully!");
   } catch (err) {
     console.error("Error during Data Source initialization or seeding:", err);
+    process.exit(1);
   } finally {
-    await AppDataSource.destroy();
-    process.exit();
+    if (dataSource && dataSource.isInitialized) {
+      await dataSource.destroy();
+    }
+    process.exit(0);
   }
 };
 

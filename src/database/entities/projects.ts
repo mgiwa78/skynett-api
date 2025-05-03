@@ -8,12 +8,10 @@ import {
   DeleteDateColumn,
 } from "typeorm";
 import { User } from "./user";
+import { BaseEntity } from "./base.entity";
 
 @Entity()
-export class Project {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Project extends BaseEntity {
   @Column()
   name: string;
 
@@ -28,13 +26,4 @@ export class Project {
 
   @ManyToOne(() => User, (user) => user.id)
   createdBy: User;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn({ nullable: true })
-  deletedAt?: Date;
 }

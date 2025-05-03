@@ -2,9 +2,9 @@ import express from "express";
 import { json } from "body-parser";
 import "express-async-errors";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import rootRouter from "./routes/rootRouter";
 import { loadPartials } from "./emails/partials";
-
 import http from "http";
 import { initializeSocket } from "@utils/socket";
 import { AppDataSource } from "@config/ormconfig";
@@ -13,7 +13,7 @@ import { errorHandler } from "@middleware/errorHandler";
 
 const app = express();
 loadPartials();
-
+app.use(cookieParser());
 const server = http.createServer(app);
 initializeSocket(server);
 
@@ -36,6 +36,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.set("trust proxy", true);
 app.use(json());
+app.use(cookieParser());
 
 app.use(rootRouter);
 app.all("*", async (req, res, next) => {

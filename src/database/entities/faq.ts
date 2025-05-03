@@ -1,29 +1,10 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-} from "typeorm";
+import { Column } from "typeorm";
+import { BaseEntity } from "./base.entity";
 
-@Entity()
-export class FAQ {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class FAQ extends BaseEntity {
   @Column()
   question: string;
 
-  @Column("text")
+  @Column()
   answer: string;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn({ nullable: true })
-  deletedAt?: Date;
 }

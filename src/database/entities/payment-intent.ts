@@ -1,30 +1,40 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, ManyToOne, Entity } from "typeorm";
+import { BaseEntity } from "./base.entity";
 import { Order } from "./order";
+import { Cart } from "./cart";
 
 @Entity()
-export class PaymentIntent {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class PaymentIntent extends BaseEntity {
+  @Column()
+  amount: number;
 
   @Column()
-  intentId: string; // External ID from payment gateway
+  currency: string;
 
-  @ManyToOne(() => Order, (order) => order.paymentIntents)
+  @Column()
+  reference: string;
+
+  @Column()
+  status: string;
+
+  @Column({ nullable: true })
+  paymentMethod: string;
+
+  @Column({ nullable: true })
+  paymentDate: Date;
+
+  @Column({ type: "json", nullable: true })
+  metadata: Record<string, any>;
+
+  @Column({ nullable: true })
+  email: string;
+
+  @Column({ nullable: true })
+  callbackUrl: string;
+
+  @ManyToOne(() => Order, (order) => order.paymentIntents, { nullable: true })
   order: Order;
 
-  @Column({ default: "pending" })
-  status: string; // pending, confirmed, failed
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @ManyToOne(() => Cart, { nullable: true })
+  cart: Cart;
 }

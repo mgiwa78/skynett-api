@@ -6,11 +6,12 @@ import {
   CreateDateColumn,
 } from "typeorm";
 import { Order } from "./order";
+import { BaseEntity } from "./base.entity";
 
 @Entity()
-export class Payment {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class Payment extends BaseEntity {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column("decimal", { precision: 10, scale: 2 })
   amount: number;
@@ -22,8 +23,11 @@ export class Payment {
   order: Order;
 
   @Column()
-  paymentMethod: string; // E.g., Credit Card, PayPal
+  paymentMethod: string;
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @Column()
+  reference: string;
 }

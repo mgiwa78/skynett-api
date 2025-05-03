@@ -6,12 +6,10 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
 } from "typeorm";
+import { BaseEntity } from "./base.entity";
 
 @Entity()
-export class Feedback {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Feedback extends BaseEntity {
   @Column()
   content: string;
 
@@ -26,13 +24,4 @@ export class Feedback {
 
   @Column("int")
   rating: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn({ nullable: true })
-  deletedAt?: Date;
 }

@@ -9,12 +9,10 @@ import {
 import { Order } from "./order";
 import bcrypt from "bcrypt";
 import { Notification } from "./notification";
+import { BaseEntity } from "./base.entity";
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class User extends BaseEntity {
   @Column()
   name: string;
 
@@ -37,12 +35,6 @@ export class User {
 
   @Column({ default: "customer" })
   role: string;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 
   @OneToMany(() => Order, (order) => order.customer)
   orders: Order[];

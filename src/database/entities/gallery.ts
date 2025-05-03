@@ -1,17 +1,8 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-} from "typeorm";
+import { Entity, Column } from "typeorm";
+import { BaseEntity } from "./base.entity";
 
 @Entity()
-export class Gallery {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Gallery extends BaseEntity {
   @Column()
   title: string;
 
@@ -20,13 +11,4 @@ export class Gallery {
 
   @Column()
   imageUrl: string;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn({ nullable: true })
-  deletedAt?: Date;
 }

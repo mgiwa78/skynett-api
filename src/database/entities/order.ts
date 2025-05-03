@@ -11,12 +11,10 @@ import { User } from "./user";
 import { OrderItem } from "./order-item";
 import { Payment } from "./payment";
 import { PaymentIntent } from "./payment-intent";
+import { BaseEntity } from "./base.entity";
 
 @Entity()
-export class Order {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Order extends BaseEntity {
   @ManyToOne(() => User, (user) => user.orders)
   customer: User;
 
@@ -34,10 +32,4 @@ export class Order {
 
   @Column("decimal", { precision: 10, scale: 2 })
   totalAmount: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

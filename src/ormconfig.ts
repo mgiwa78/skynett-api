@@ -2,6 +2,7 @@
 import { DataSource, DataSourceOptions } from "typeorm";
 import { SeederOptions } from "typeorm-extension";
 import config from "./constants/config";
+import path from "path";
 
 // export const AppDataSource = new DataSource({
 //   type: "mysql",
@@ -33,7 +34,10 @@ const options: DataSourceOptions & SeederOptions = {
   extra: {
     connectionLimit: 10,
   },
-  entities: [__dirname + "/database/entities/*.{ts,js}"],
+  entities: [
+    path.join(__dirname, "../database/entities/**/*") +
+      (process.env.NODE_ENV === "development" ? ".ts" : ".js"),
+  ],
   seeds: ["src/database/seeders/**/*{.ts,.js}"],
   factories: ["src/database/factories/**/*{.ts,.js}"],
 };

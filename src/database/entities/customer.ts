@@ -8,12 +8,10 @@ import {
   DeleteDateColumn,
 } from "typeorm";
 import { Order } from "./order";
+import { BaseEntity } from "./base.entity";
 
 @Entity()
-export class Customer {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Customer extends BaseEntity {
   @Column()
   name: string;
 
@@ -31,13 +29,4 @@ export class Customer {
 
   @OneToMany(() => Order, (order) => order.customer)
   orders: Order[];
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn({ nullable: true })
-  deletedAt?: Date;
 }
