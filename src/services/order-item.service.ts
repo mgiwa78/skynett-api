@@ -13,7 +13,7 @@ export class OrderItemService {
     return this.orderItemRepository.createEntity(data);
   }
 
-  async getOrderItemById(id: number): Promise<OrderItem | null> {
+  async getOrderItemById(id: string): Promise<OrderItem | null> {
     return this.orderItemRepository.findById(id);
   }
 
@@ -22,7 +22,7 @@ export class OrderItemService {
   }
 
   async updateOrderItem(
-    id: number,
+    id: string,
     data: Partial<OrderItem>
   ): Promise<OrderItem | null> {
     return this.orderItemRepository.updateEntity(id, data);

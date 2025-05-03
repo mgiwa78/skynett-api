@@ -17,7 +17,16 @@ app.use(cookieParser());
 const server = http.createServer(app);
 initializeSocket(server);
 
-const whitelist = ["http://localhost:5173", "http://localhost:5230"];
+const whitelist = [
+  "http://localhost:5173",
+  "http://localhost:5230",
+  "https://skynettrenewables.com",
+  "http://skynettrenewables.com",
+  "http://admin.skynettrenewables.com",
+  "https://admin.skynettrenewables.com",
+  "http://shop.skynettrenewables.com",
+  "https://shop.skynettrenewables.com",
+];
 // const corsOptions = {
 //   origin: "*",
 //   credentials: true,

@@ -22,7 +22,7 @@ export class CategoryController {
   getCategoryById = async (req: Request, res: Response): Promise<Response> => {
     try {
       const category = await this.categoryService.getCategoryById(
-        parseInt(req.params.id)
+        req.params.id
       );
       if (!category)
         return res.status(404).json({ message: "Category not found" });
@@ -49,7 +49,7 @@ export class CategoryController {
   updateCategory = async (req: Request, res: Response): Promise<Response> => {
     try {
       const updatedCategory = await this.categoryService.updateCategory(
-        parseInt(req.params.id),
+        req.params.id,
         req.body
       );
       if (!updatedCategory)
@@ -65,9 +65,7 @@ export class CategoryController {
 
   deleteCategory = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const result = await this.categoryService.deleteCategory(
-        parseInt(req.params.id)
-      );
+      const result = await this.categoryService.deleteCategory(req.params.id);
       if (!result)
         return res.status(404).json({ message: "Category not found" });
 

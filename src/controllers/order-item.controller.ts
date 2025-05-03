@@ -22,7 +22,7 @@ export class OrderItemController {
   getOrderItemById = async (req: Request, res: Response): Promise<Response> => {
     try {
       const orderItem = await this.orderItemService.getOrderItemById(
-        parseInt(req.params.id)
+        req.params.id
       );
       if (!orderItem)
         return res.status(404).json({ message: "Order item not found" });
@@ -49,7 +49,7 @@ export class OrderItemController {
   updateOrderItem = async (req: Request, res: Response): Promise<Response> => {
     try {
       const updatedOrderItem = await this.orderItemService.updateOrderItem(
-        parseInt(req.params.id),
+        req.params.id,
         req.body
       );
       if (!updatedOrderItem)
