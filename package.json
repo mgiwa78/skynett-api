@@ -11,6 +11,12 @@
     "start": "cross-env NODE_ENV=production node -r ./tsconfig-paths-bootstrap.js dist/app.js",
     "ts.check": "tsc --project tsconfig.json",
     "start:worker": "npx ts-node -r tsconfig-paths/register src/redis/workers/index.ts",
+    "db-seed:prod": "node database/seeders/seed-runner.js",
+    "start:worker:prod": "node workers/start-worker.js",
+    "db-migrate:generate": "npx ts-node --project tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate ./src/database/migrations/MyNewMigration -d src/config/ormconfig.ts",
+    "db-migrate:run": "npx ts-node --project tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run --dataSource src/config/ormconfig.ts",
+    "db-migrate:generate:prod": "cross-env NODE_ENV=production npx typeorm migration:generate ./database/migrations/MyNewMigration --outputJs -d config/ormconfig.js",
+    "db-migrate:run:prod": "cross-env NODE_ENV=production npx typeorm migration:run --dataSource config/ormconfig.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
