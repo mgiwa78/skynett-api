@@ -81,7 +81,7 @@ export default class ProductSeeder implements Seeder {
           categories: [randomCategory],
           brands: productBrands,
           status: ProductStatus.ACTIVE,
-          image: "https://via.placeholder.com/150",
+          image: "https://placehold.co/600x600",
         });
         await productRepository.save(product);
       }
