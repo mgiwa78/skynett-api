@@ -59,6 +59,9 @@ export class Product extends BaseEntity {
   })
   brands: Brand[];
 
+  @Column({ unique: true })
+  productCode: string;
+
   @ManyToMany(() => Category, (category) => category.products)
   @JoinTable({
     name: "product_categories",

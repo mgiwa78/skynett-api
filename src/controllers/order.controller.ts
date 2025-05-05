@@ -9,14 +9,8 @@ export class OrderController {
   }
 
   createOrder = async (req: Request, res: Response): Promise<Response> => {
-    try {
-      const order = await this.orderService.createOrder(req.body);
-      return res.status(201).json(order);
-    } catch (err) {
-      return res
-        .status(500)
-        .json({ message: "Failed to create order", error: err.message });
-    }
+    const order = await this.orderService.createOrder(req.body);
+    return res.status(201).json(order);
   };
 
   getOrderById = async (req: Request, res: Response): Promise<Response> => {

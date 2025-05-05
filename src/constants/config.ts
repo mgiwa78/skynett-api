@@ -18,6 +18,7 @@ interface Config {
     synchronize: boolean;
     logging: boolean;
   };
+  baseUrl: string;
   email: {
     user: string;
     password: string;
@@ -28,6 +29,7 @@ interface Config {
 const config: Config = {
   nodeEnv: process.env.NODE_ENV || "development",
   port: parseInt(process.env.PORT || "3000", 10),
+  baseUrl: process.env.API_BASE_URL || "http://localhost:3000",
   db: {
     host: process.env.DB_HOST || "localhost",
     type: process.env.DB_TYPE || "mysql",

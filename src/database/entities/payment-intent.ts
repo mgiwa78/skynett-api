@@ -24,13 +24,10 @@ export class PaymentIntent extends BaseEntity {
   paymentDate: Date;
 
   @Column({ type: "json", nullable: true })
-  metadata: Record<string, any>;
+  paymentDetails: Record<string, any>;
 
   @Column({ nullable: true })
   email: string;
-
-  @Column({ nullable: true })
-  callbackUrl: string;
 
   @ManyToOne(() => Order, (order) => order.paymentIntents, { nullable: true })
   order: Order;

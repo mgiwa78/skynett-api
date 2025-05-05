@@ -54,3 +54,32 @@
 [2025-04-27 23:46:21] error: Internal Server Error - Not allowed by CORS
 [2025-05-03 02:16:08] error: Internal Server Error - Cannot read properties of undefined (reading 'create')
 [2025-05-03 02:18:42] error: Internal Server Error - Product not found
+[2025-05-05 20:39:15] error: Internal Server Error - Cannot read properties of undefined (reading 'id')
+[2025-05-05 20:39:16] error: Internal Server Error - Cannot read properties of undefined (reading 'id')
+[2025-05-05 20:39:16] error: Internal Server Error - Cannot read properties of undefined (reading 'id')
+[2025-05-05 20:39:20] error: Internal Server Error - Cannot read properties of undefined (reading 'id')
+[2025-05-05 20:39:24] error: Internal Server Error - Cannot read properties of undefined (reading 'id')
+[2025-05-05 21:20:52] error: Internal Server Error - Hostname/IP does not match certificate's altnames: Host: mail.skynettrenewables.com. is not in the cert's altnames: DNS:*.web-hosting.com, DNS:web-hosting.com
+[2025-05-05 21:20:53] error: Internal Server Error - Hostname/IP does not match certificate's altnames: Host: mail.skynettrenewables.com. is not in the cert's altnames: DNS:*.web-hosting.com, DNS:web-hosting.com
+[2025-05-05 21:20:55] error: Internal Server Error - Hostname/IP does not match certificate's altnames: Host: mail.skynettrenewables.com. is not in the cert's altnames: DNS:*.web-hosting.com, DNS:web-hosting.com
+[2025-05-05 21:20:57] error: Internal Server Error - Hostname/IP does not match certificate's altnames: Host: mail.skynettrenewables.com. is not in the cert's altnames: DNS:*.web-hosting.com, DNS:web-hosting.com
+[2025-05-05 21:21:03] error: Internal Server Error - Hostname/IP does not match certificate's altnames: Host: mail.skynettrenewables.com. is not in the cert's altnames: DNS:*.web-hosting.com, DNS:web-hosting.com
+[2025-05-05 21:23:47] error: Internal Server Error - Greeting never received
+[2025-05-05 21:24:18] error: Internal Server Error - Greeting never received
+[2025-05-05 21:24:50] error: Internal Server Error - Greeting never received
+[2025-05-05 21:25:24] error: Internal Server Error - Greeting never received
+[2025-05-05 21:25:42] error: Internal Server Error - Hostname/IP does not match certificate's altnames: Host: mail.skynettrenewables.com. is not in the cert's altnames: DNS:*.web-hosting.com, DNS:web-hosting.com
+[2025-05-05 21:25:42] error: Internal Server Error - Hostname/IP does not match certificate's altnames: Host: mail.skynettrenewables.com. is not in the cert's altnames: DNS:*.web-hosting.com, DNS:web-hosting.com
+[2025-05-05 21:25:45] error: Internal Server Error - Hostname/IP does not match certificate's altnames: Host: mail.skynettrenewables.com. is not in the cert's altnames: DNS:*.web-hosting.com, DNS:web-hosting.com
+[2025-05-05 21:25:47] error: Internal Server Error - Hostname/IP does not match certificate's altnames: Host: mail.skynettrenewables.com. is not in the cert's altnames: DNS:*.web-hosting.com, DNS:web-hosting.com
+[2025-05-05 21:25:54] error: Internal Server Error - Hostname/IP does not match certificate's altnames: Host: mail.skynettrenewables.com. is not in the cert's altnames: DNS:*.web-hosting.com, DNS:web-hosting.com
+[2025-05-05 21:26:45] error: Internal Server Error - Can't send mail - all recipients were rejected: 550-"Your IP: 104.28.198.120 : Your domain skynett.com is not allowed in header
+550 From"
+[2025-05-05 21:26:47] error: Internal Server Error - Can't send mail - all recipients were rejected: 550-"Your IP: 104.28.198.120 : Your domain skynett.com is not allowed in header
+550 From"
+[2025-05-05 21:26:50] error: Internal Server Error - Can't send mail - all recipients were rejected: 550-"Your IP: 104.28.198.120 : Your domain skynett.com is not allowed in header
+550 From"
+[2025-05-05 21:26:55] error: Internal Server Error - Can't send mail - all recipients were rejected: 550-"Your IP: 104.28.198.120 : Your domain skynett.com is not allowed in header
+550 From"
+[2025-05-05 21:27:00] error: Internal Server Error - Can't send mail - all recipients were rejected: 550-"Your IP: 104.28.198.120 : Your domain skynett.com is not allowed in header
+550 From"

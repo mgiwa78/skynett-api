@@ -2,7 +2,8 @@ import { PaymentService } from "../services/payment.service";
 import { Request, Response } from "express";
 import { CartService } from "@services/cart.service";
 import { CustomRequest } from "@middleware/require-auth";
-
+import { AppDataSource } from "@config/ormconfig";
+import { Order } from "@entities/order";
 export class PaymentController {
   private paymentService: PaymentService;
   private cartService: CartService;
@@ -84,7 +85,16 @@ export class PaymentController {
     res: Response
   ): Promise<Response> => {
     try {
-      const { email, cartId } = req.body;
+      const { email, cartId, orderId } = req.body;
+
+      const orderRepo = AppDataSource.getRepository(Order);
+      const order = await orderRepo.findOne({
+        where: { id: orderId },
+      });
+
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
 
       if (!email) {
         return res.status(400).json({ message: "Email is required" });
@@ -113,19 +123,19 @@ export class PaymentController {
         amount,
         email,
         cartId,
-        undefined,
+        order.orderRef,
         {
           userId: req.user?.id,
           userEmail: req.user?.email,
         }
       );
 
+      console.log(paymentIntent.paymentDetails);
+
       return res.status(200).json({
         message: "Payment initialized successfully",
-        data: {
-          reference: paymentIntent.reference,
-          authorizationUrl: paymentIntent.metadata.authorizationUrl,
-        },
+        reference: paymentIntent.reference,
+        authorizationUrl: paymentIntent.paymentDetails.authorization_url,
       });
     } catch (error: any) {
       return res.status(500).json({

@@ -7,9 +7,9 @@ import { PaymentIntentRepository } from "../repositories/payment-intent.reposito
 import { Cart } from "@entities/cart";
 import { Order } from "@entities/order";
 import { AppDataSource } from "@config/ormconfig";
-import { v4 as uuidv4 } from "uuid";
 import dotenv from "dotenv";
-
+import { generatePaymentRef } from "@utils/helpers";
+import { sendDynamicMail } from "../emails/mail.service";
 dotenv.config();
 
 export class PaymentService {
@@ -61,28 +61,26 @@ export class PaymentService {
     amount: number,
     email: string,
     cartId?: string,
-    orderId?: string,
+    orderRef?: string,
     metadata: Record<string, any> = {}
   ): Promise<PaymentIntent> {
     const paymentIntentRepo = AppDataSource.getRepository(PaymentIntent);
     const cartRepo = AppDataSource.getRepository(Cart);
     const orderRepo = AppDataSource.getRepository(Order);
 
-    // Create payment reference
-    const reference = `PAY-${uuidv4()}`;
+    const reference = generatePaymentRef().toUpperCase();
 
-    // Initialize payment with Paystack
     try {
       const response = await axios.post(
         `${this.baseUrl}/transaction/initialize`,
         {
-          amount: amount * 100, // Convert to kobo/cents
+          amount: amount * 100,
           email,
           reference,
           metadata: {
             ...metadata,
             cartId,
-            orderId,
+            orderRef,
           },
           callback_url: `${process.env.CLIENT_APP_URL}/payment/verify/${reference}`,
         },
@@ -91,23 +89,15 @@ export class PaymentService {
         }
       );
 
-      // Create payment intent
       const paymentIntent = paymentIntentRepo.create({
         amount,
         currency: "NGN",
         reference,
         status: "pending",
         email,
-        metadata: {
-          ...metadata,
-          cartId,
-          orderId,
-          authorizationUrl: response.data.data.authorization_url,
-        },
-        callbackUrl: response.data.data.callback_url,
+        paymentDetails: response.data.data,
       });
 
-      // Link cart or order if provided
       if (cartId) {
         const cart = await cartRepo.findOne({ where: { id: cartId } });
         if (cart) {
@@ -115,14 +105,34 @@ export class PaymentService {
         }
       }
 
-      if (orderId) {
-        const order = await orderRepo.findOne({ where: { id: orderId } });
+      if (orderRef) {
+        const order = await orderRepo.findOne({ where: { orderRef } });
         if (order) {
           paymentIntent.order = order;
         }
       }
 
       await paymentIntentRepo.save(paymentIntent);
+
+      // Send payment initialization email
+      await sendDynamicMail(email, `Payment Initialization - ${reference}`, [
+        {
+          type: "text",
+          title: "Payment Reference",
+          content: reference,
+        },
+        {
+          type: "text",
+          title: "Amount",
+          content: String(amount),
+        },
+        {
+          type: "text",
+          title: "Authorization URL",
+          content: paymentIntent.paymentDetails.authorization_url,
+        },
+      ]);
+
       return paymentIntent;
     } catch (error: any) {
       throw new Error(`Failed to initialize payment: ${error.message}`);
@@ -150,22 +160,47 @@ export class PaymentService {
 
       const { status, paid_at, authorization } = response.data.data;
 
-      // Update payment intent
-      paymentIntent.status = status;
+      paymentIntent.status = response.data.data.status;
       paymentIntent.paymentDate = paid_at ? new Date(paid_at) : undefined;
       paymentIntent.paymentMethod = authorization?.channel || undefined;
-      paymentIntent.metadata = {
-        ...paymentIntent.metadata,
-        paystackResponse: response.data.data,
-      };
 
+      paymentIntent.paymentDetails = response.data.data;
       await paymentIntentRepo.save(paymentIntent);
 
-      // If payment is successful and there's an order, update order status
       if (status === "success" && paymentIntent.order) {
         const orderRepo = AppDataSource.getRepository(Order);
         paymentIntent.order.status = "paid";
+        paymentIntent.order.paymentDetails = response.data.data;
         await orderRepo.save(paymentIntent.order);
+      }
+
+      if (paymentIntent.email && paymentIntent.order) {
+        await sendDynamicMail(
+          paymentIntent.email,
+          `Payment Verification - ${reference}`,
+          [
+            {
+              type: "text",
+              title: "Payment Reference",
+              content: reference,
+            },
+            {
+              type: "text",
+              title: "Status",
+              content: status,
+            },
+            {
+              type: "text",
+              title: "Amount",
+              content: String(paymentIntent.amount),
+            },
+            {
+              type: "text",
+              title: "Payment Date",
+              content: paid_at ? new Date(paid_at).toLocaleString() : "N/A",
+            },
+          ]
+        );
       }
 
       return paymentIntent;

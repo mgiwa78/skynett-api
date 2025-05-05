@@ -20,7 +20,6 @@ export class CartController {
     if (req.user?.id) {
       return { customerId: req.user.id };
     }
-
     // Get or create session ID
     let sessionId = req.cookies?.cartSessionId;
 
@@ -39,6 +38,7 @@ export class CartController {
   getCart = async (req: CustomRequest, res: Response): Promise<Response> => {
     try {
       const identifier = this.getCartIdentifier(req, res);
+
       const cart = await this.cartService.getCart(identifier);
       return res.status(200).json(cart);
     } catch (err: any) {

@@ -15,8 +15,14 @@ import { BaseEntity } from "./base.entity";
 
 @Entity()
 export class Order extends BaseEntity {
+  @Column()
+  orderRef: string;
+
   @ManyToOne(() => User, (user) => user.orders)
   customer: User;
+
+  @Column({ type: "json", nullable: true })
+  shippingAddress: any;
 
   @Column({ default: "pending" })
   status: string;
@@ -32,4 +38,7 @@ export class Order extends BaseEntity {
 
   @Column("decimal", { precision: 10, scale: 2 })
   totalAmount: number;
+
+  @Column({ type: "json", nullable: true })
+  paymentDetails: any;
 }

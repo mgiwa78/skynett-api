@@ -4,7 +4,7 @@ import {
   PaginationOptions,
 } from "@repositories/base.repository";
 import { ProductRepository } from "@repositories/product.repository";
-
+import { generateProductCode } from "@utils/helpers";
 export class ProductService {
   private productRepository: ProductRepository;
 
@@ -13,7 +13,10 @@ export class ProductService {
   }
 
   async createProduct(data: Partial<Product>): Promise<Product> {
-    return this.productRepository.createEntity(data);
+    return this.productRepository.createEntity({
+      ...data,
+      productCode: generateProductCode(),
+    });
   }
 
   async getProductById(id: string): Promise<Product | null> {

@@ -3,6 +3,7 @@ import { Category } from "../entities/category";
 import { Brand } from "../entities/brand";
 import { DataSource } from "typeorm";
 import { Seeder } from "typeorm-extension";
+import { generateProductCode } from "../../utils/helpers";
 
 export default class ProductSeeder implements Seeder {
   public async run(dataSource: DataSource): Promise<void> {
@@ -80,6 +81,8 @@ export default class ProductSeeder implements Seeder {
           ...productDataWithoutBrands,
           categories: [randomCategory],
           brands: productBrands,
+          productCode: generateProductCode(),
+          stock: Math.floor(Math.random() * 100) + 1,
           status: ProductStatus.ACTIVE,
           image: "https://placehold.co/600x600",
         });
