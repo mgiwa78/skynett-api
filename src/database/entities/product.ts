@@ -17,6 +17,7 @@ export enum ProductStatus {
   ACTIVE = "active",
   INACTIVE = "inactive",
   PENDING = "pending",
+  SCRAPED = "scraped",
 }
 
 @Entity()
@@ -58,6 +59,12 @@ export class Product extends BaseEntity {
     },
   })
   brands: Brand[];
+
+  @Column({ type: "json", nullable: true })
+  details: JSON;
+
+  @Column({ type: "longtext", nullable: true })
+  scrapedHash: string;
 
   @Column({ unique: true })
   productCode: string;

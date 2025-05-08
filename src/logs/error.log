@@ -114,3 +114,33 @@
 [2025-05-08 10:56:53] error: Internal Server Error - request entity too large
 [2025-05-08 10:57:02] error: Internal Server Error - request entity too large
 [2025-05-08 11:01:06] error: Internal Server Error - request entity too large
+[2025-05-08 17:13:24] error: Scraping error: Navigation timeout of 30000 ms exceeded
+[2025-05-08 17:21:28] error: Error processing product at https://shop.gennextechnologies.com/product/jinko-615-watts-solar-panel-tiger-neo-n-type-bifacial/: Cannot query across many-to-many for property categories
+[2025-05-08 17:21:34] error: Error processing product at https://shop.gennextechnologies.com/product/590-watts-solar-panel-jinko-solar/: Cannot query across many-to-many for property categories
+[2025-05-08 17:21:40] error: Error processing product at https://shop.gennextechnologies.com/product/585-watts-solar-panel-jinko-solar/: Cannot query across many-to-many for property categories
+[2025-05-08 17:21:42] error: Error processing product at https://shop.gennextechnologies.com/product/svc-10kwh-lifepo4-48v-100ah-lithium-battery-bmv-series-wall-mounted-with-100a-max-charge-discharge-current/: Cannot query across many-to-many for property categories
+[2025-05-08 17:21:48] error: Error processing product at https://shop.gennextechnologies.com/product/svc-lifepo4-15-khw-lithium-battery-48v-200ah-bmf-series-floor-mounted/: Cannot query across many-to-many for property categories
+[2025-05-08 17:21:51] error: Error processing product at https://shop.gennextechnologies.com/product/svc-lifepo4-15-khw-lithium-battery-48v-200ah-bmf-series-floor-mounted/: Cannot query across many-to-many for property categories
+[2025-05-08 17:22:01] error: Error processing product at https://shop.gennextechnologies.com/product/6-kva-230vac-sorotec-revo-hm-hybrid-inverter/: Cannot query across many-to-many for property categories
+[2025-05-08 17:22:03] error: Error processing product at https://shop.gennextechnologies.com/product/6-kva-230vac-sorotec-revo-hm-hybrid-inverter/: Cannot query across many-to-many for property categories
+[2025-05-08 17:22:05] error: Error processing product at https://shop.gennextechnologies.com/product/15-kva-48v-3-phase-hybrid-inverter/: Cannot query across many-to-many for property categories
+[2025-05-08 17:22:09] error: Error processing product at https://shop.gennextechnologies.com/product/15-kva-48v-3-phase-hybrid-inverter/: Cannot query across many-to-many for property categories
+[2025-05-08 17:22:19] error: Error processing product at https://shop.gennextechnologies.com/product/astronergy-580w-solar-panel/: Cannot query across many-to-many for property categories
+[2025-05-08 17:22:23] error: Error processing product at https://shop.gennextechnologies.com/product/gennex-y1-electric-motorbike/: Cannot query across many-to-many for property categories
+[2025-05-08 17:22:26] error: Error processing product at https://shop.gennextechnologies.com/product/gennex-y1-electric-motorbike/: Cannot query across many-to-many for property categories
+[2025-05-08 17:22:30] error: Error processing product at https://shop.gennextechnologies.com/product/gennex-s1-electric-motorbike/: Cannot query across many-to-many for property categories
+[2025-05-08 17:22:33] error: Error processing product at https://shop.gennextechnologies.com/product/gennex-s1-electric-motorbike/: Cannot query across many-to-many for property categories
+[2025-05-08 17:27:45] error: Error processing product at https://shop.gennextechnologies.com/product/585-watts-solar-panel-jinko-solar/: Property "additionalDetails" was not found in "Product". Make sure your query is correct.
+[2025-05-08 17:27:49] error: Error processing product at https://shop.gennextechnologies.com/product/585-watts-solar-panel-jinko-solar/: Property "additionalDetails" was not found in "Product". Make sure your query is correct.
+[2025-05-08 17:27:58] error: Error processing product at https://shop.gennextechnologies.com/product/svc-10kwh-lifepo4-48v-100ah-lithium-battery-bmv-series-wall-mounted-with-100a-max-charge-discharge-current/: Property "additionalDetails" was not found in "Product". Make sure your query is correct.
+[2025-05-08 17:28:11] error: Error processing product at https://shop.gennextechnologies.com/product/svc-lifepo4-15-khw-lithium-battery-48v-200ah-bmf-series-floor-mounted/: Property "additionalDetails" was not found in "Product". Make sure your query is correct.
+[2025-05-08 17:28:27] error: Error processing product at https://shop.gennextechnologies.com/product/6-kva-230vac-sorotec-revo-hm-hybrid-inverter/: Property "additionalDetails" was not found in "Product". Make sure your query is correct.
+[2025-05-08 17:28:31] error: Error processing product at https://shop.gennextechnologies.com/product/6-kva-230vac-sorotec-revo-hm-hybrid-inverter/: Property "additionalDetails" was not found in "Product". Make sure your query is correct.
+[2025-05-08 17:28:38] error: Error processing product at https://shop.gennextechnologies.com/product/15-kva-48v-3-phase-hybrid-inverter/: Property "additionalDetails" was not found in "Product". Make sure your query is correct.
+[2025-05-08 17:28:43] error: Error processing product at https://shop.gennextechnologies.com/product/15-kva-48v-3-phase-hybrid-inverter/: Property "additionalDetails" was not found in "Product". Make sure your query is correct.
+[2025-05-08 17:28:48] error: Error processing product at https://shop.gennextechnologies.com/product/astronergy-580w-solar-panel/: Property "additionalDetails" was not found in "Product". Make sure your query is correct.
+[2025-05-08 17:28:53] error: Error processing product at https://shop.gennextechnologies.com/product/astronergy-580w-solar-panel/: Property "additionalDetails" was not found in "Product". Make sure your query is correct.
+[2025-05-08 17:28:57] error: Error processing product at https://shop.gennextechnologies.com/product/gennex-y1-electric-motorbike/: Property "additionalDetails" was not found in "Product". Make sure your query is correct.
+[2025-05-08 20:11:43] error: Error processing product at https://shop.gennextechnologies.com/product/jinko-615-watts-solar-panel-tiger-neo-n-type-bifacial/: Duplicate entry 'f7dc0917-aa7e-4f9a-bd4a-2f1d2a7d34dd-1' for key 'PRIMARY'
+[2025-05-08 20:11:47] error: Error processing product at https://shop.gennextechnologies.com/product/590-watts-solar-panel-jinko-solar/: Duplicate entry '10a11455-69f5-4758-8a98-4bf294672e8e-1' for key 'PRIMARY'
+[2025-05-08 20:11:50] error: Error processing product at https://shop.gennextechnologies.com/product/590-watts-solar-panel-jinko-solar/: Duplicate entry 'ca7f43c8-b19e-4442-9ef0-116eb342ae8b-1' for key 'PRIMARY'

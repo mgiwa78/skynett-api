@@ -54,6 +54,7 @@
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.14",
     "pre-commit": "^1.2.2",
+    "puppeteer": "^24.8.2",
     "rate-limit-redis": "^4.2.0",
     "redis": "^4.7.0",
     "rimraf": "^5.0.1",

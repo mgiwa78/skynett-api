@@ -30,21 +30,21 @@ const runSeeders = async () => {
     await dataSource.synchronize();
     console.log("Database schema has been recreated.");
 
-    await runSeeder(dataSource, ProductCategorySeeder);
-    await runSeeder(dataSource, BrandSeeder);
-    await runSeeder(dataSource, ProductSeeder);
-    await runSeeder(dataSource, CustomerSeeder);
+    // await runSeeder(dataSource, ProductCategorySeeder);
+    // await runSeeder(dataSource, BrandSeeder);
+    // await runSeeder(dataSource, ProductSeeder);
+    // await runSeeder(dataSource, CustomerSeeder);
     await runSeeder(dataSource, UserSeeder);
-    await runSeeder(dataSource, OrderSeeder);
+    // await runSeeder(dataSource, OrderSeeder);
     await runSeeder(dataSource, CouponSeeder);
-    await runSeeder(dataSource, OrderItemSeeder);
+    // await runSeeder(dataSource, OrderItemSeeder);
     await runSeeder(dataSource, ProjectSeeder);
-    await runSeeder(dataSource, DistributorSeeder);
+    // await runSeeder(dataSource, DistributorSeeder);
     await runSeeder(dataSource, GallerySeeder);
-    await runSeeder(dataSource, PaymentSeeder);
-    await runSeeder(dataSource, PaymentIntentSeeder);
-    await runSeeder(dataSource, NotificationSeeder);
-    await runSeeder(dataSource, CartSeeder);
+    // await runSeeder(dataSource, PaymentSeeder);
+    // await runSeeder(dataSource, PaymentIntentSeeder);
+    // await runSeeder(dataSource, NotificationSeeder);
+    // await runSeeder(dataSource, CartSeeder);
 
     console.log("Seeders have been run successfully!");
   } catch (err) {

@@ -13,6 +13,7 @@ import feedbackRouter from "./feedback.routes";
 import projectRouter from "./project.routes";
 import gelleryRouter from "./gellery.routes";
 import cartRouter from "./cart.routes";
+import scraperRoutes from "./scraper.routes";
 const routerRouter = express.Router();
 
 routerRouter.use("/auth", authRoutes);
@@ -29,5 +30,6 @@ routerRouter.use("/projects", projectRouter);
 routerRouter.use("/faqs", faqRouter);
 routerRouter.use("/distributors", distributorRouter);
 routerRouter.use("/coupons", couponRouter);
+routerRouter.use("/scraper", scraperRoutes);
 
 export default routerRouter;

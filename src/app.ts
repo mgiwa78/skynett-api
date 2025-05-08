@@ -10,12 +10,17 @@ import { initializeSocket } from "@utils/socket";
 import { AppDataSource } from "@config/ormconfig";
 import { NotFoundError } from "@errors/custom-errors";
 import { errorHandler } from "@middleware/errorHandler";
+import { ScraperJob } from "./jobs/scraper.job";
 
 const app = express();
 loadPartials();
 app.use(cookieParser());
 const server = http.createServer(app);
 initializeSocket(server);
+
+// Initialize scraper job
+const scraperJob = new ScraperJob();
+scraperJob.start();
 
 const whitelist = [
   "http://localhost:5173",
