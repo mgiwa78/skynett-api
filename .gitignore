@@ -11,6 +11,8 @@ dist
 # production
 /build
 /dist
+uploads
+src/logs
 .env
 .env.production
 

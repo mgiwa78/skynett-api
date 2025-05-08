@@ -44,10 +44,11 @@ const corsOptions = {
   },
   credentials: true,
 };
+app.use("/uploads", express.static("uploads"));
 
 app.use(cors(corsOptions));
 app.set("trust proxy", true);
-app.use(json());
+app.use(json({ limit: "50mb" }));
 app.use(cookieParser());
 
 app.use(rootRouter);

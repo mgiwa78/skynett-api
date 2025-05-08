@@ -32,7 +32,7 @@ export class ProductController {
           (path) => path !== null
         );
       }
-
+      console.log(productData);
       const product = await this.productService.createProduct(productData);
       return res.status(201).json(product);
     } catch (err) {
