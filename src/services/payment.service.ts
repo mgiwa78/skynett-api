@@ -10,6 +10,7 @@ import { AppDataSource } from "@config/ormconfig";
 import dotenv from "dotenv";
 import { generatePaymentRef } from "@utils/helpers";
 import { sendDynamicMail } from "../emails/mail.service";
+import config from "@constants/config";
 dotenv.config();
 
 export class PaymentService {
@@ -82,7 +83,6 @@ export class PaymentService {
             cartId,
             orderRef,
           },
-          callback_url: `${process.env.CLIENT_APP_URL}/payment/verify/${reference}`,
         },
         {
           headers: this.getPaystackHeaders(),
@@ -172,35 +172,35 @@ export class PaymentService {
         paymentIntent.order.status = "paid";
         paymentIntent.order.paymentDetails = response.data.data;
         await orderRepo.save(paymentIntent.order);
-      }
 
-      if (paymentIntent.email && paymentIntent.order) {
-        await sendDynamicMail(
-          paymentIntent.email,
-          `Payment Verification - ${reference}`,
-          [
-            {
-              type: "text",
-              title: "Payment Reference",
-              content: reference,
-            },
-            {
-              type: "text",
-              title: "Status",
-              content: status,
-            },
-            {
-              type: "text",
-              title: "Amount",
-              content: String(paymentIntent.amount),
-            },
-            {
-              type: "text",
-              title: "Payment Date",
-              content: paid_at ? new Date(paid_at).toLocaleString() : "N/A",
-            },
-          ]
-        );
+        if (paymentIntent.email && paymentIntent.order) {
+          await sendDynamicMail(
+            paymentIntent.email,
+            `Payment Verification - ${reference}`,
+            [
+              {
+                type: "text",
+                title: "Payment Reference",
+                content: reference,
+              },
+              {
+                type: "text",
+                title: "Status",
+                content: status,
+              },
+              {
+                type: "text",
+                title: "Amount",
+                content: String(paymentIntent.amount),
+              },
+              {
+                type: "text",
+                title: "Payment Date",
+                content: paid_at ? new Date(paid_at).toLocaleString() : "N/A",
+              },
+            ]
+          );
+        }
       }
 
       return paymentIntent;

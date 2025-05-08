@@ -4,6 +4,8 @@ import { CartService } from "@services/cart.service";
 import { CustomRequest } from "@middleware/require-auth";
 import { AppDataSource } from "@config/ormconfig";
 import { Order } from "@entities/order";
+import { sendDynamicMail } from "../emails/mail.service";
+
 export class PaymentController {
   private paymentService: PaymentService;
   private cartService: CartService;
@@ -85,52 +87,65 @@ export class PaymentController {
     res: Response
   ): Promise<Response> => {
     try {
-      const { email, cartId, orderId } = req.body;
+      const { orderId } = req.body;
+
+      if (!orderId) {
+        return res.status(400).json({ message: "Order ID is required" });
+      }
 
       const orderRepo = AppDataSource.getRepository(Order);
       const order = await orderRepo.findOne({
         where: { id: orderId },
+        relations: ["items", "items.product"],
       });
 
       if (!order) {
         return res.status(404).json({ message: "Order not found" });
       }
 
-      if (!email) {
-        return res.status(400).json({ message: "Email is required" });
-      }
-
-      if (!cartId) {
-        return res.status(400).json({ message: "Cart ID is required" });
-      }
-
-      let amount = 0;
-      const cart = await this.cartService.getCartById(cartId);
-
-      if (!cart) {
-        return res.status(404).json({ message: "Cart not found" });
-      }
-
-      amount = cart.items.reduce((total, item) => {
-        return total + item.product.price * item.quantity;
-      }, 0);
-
-      if (!amount || amount <= 0) {
-        return res.status(400).json({ message: "Invalid amount" });
+      if (order.status === "paid") {
+        return res.status(400).json({ message: "Order is already paid" });
       }
 
       const paymentIntent = await this.paymentService.initializePayment(
-        amount,
-        email,
-        cartId,
+        order.totalAmount,
+        order.shippingAddress.email,
+        order.id,
         order.orderRef,
         {
           userId: req.user?.id,
           userEmail: req.user?.email,
+          orderId: order.id,
+          orderRef: order.orderRef,
         }
       );
 
-      console.log(paymentIntent.paymentDetails);
+      await sendDynamicMail(
+        order.shippingAddress.email,
+        `Payment Initialized - Order ${order.orderRef}`,
+        [
+          {
+            type: "text",
+            title: "Order Reference",
+            content: order.orderRef,
+          },
+          {
+            type: "text",
+            title: "Amount to Pay",
+            content: `₦${order.totalAmount}`,
+          },
+          {
+            type: "text",
+            title: "Payment Reference",
+            content: paymentIntent.reference,
+          },
+          {
+            type: "text",
+            title: "Payment Link",
+            content: paymentIntent.paymentDetails.authorization_url,
+          },
+        ]
+      );
 
       return res.status(200).json({
         message: "Payment initialized successfully",
@@ -156,6 +171,63 @@ export class PaymentController {
       }
 
       const paymentIntent = await this.paymentService.verifyPayment(reference);
+
+      if (paymentIntent.email) {
+        const orderRepo = AppDataSource.getRepository(Order);
+        const order = await orderRepo.findOne({
+          where: { id: paymentIntent.order.id },
+          relations: ["items", "items.product"],
+        });
+
+        if (order && paymentIntent.status === "success") {
+          await sendDynamicMail(
+            paymentIntent.email,
+            `Payment Confirmation - Order ${order.orderRef}`,
+            [
+              {
+                type: "text",
+                title: "Payment Status",
+                content:
+                  paymentIntent.status === "success" ? "Successful" : "Failed",
+              },
+              {
+                type: "text",
+                title: "Order Reference",
+                content: order.orderRef,
+              },
+              {
+                type: "text",
+                title: "Amount Paid",
+                content: `₦${paymentIntent.amount.toFixed(2)}`,
+              },
+              {
+                type: "text",
+                title: "Payment Reference",
+                content: paymentIntent.reference,
+              },
+              {
+                type: "text",
+                title: "Payment Date",
+                content: paymentIntent.paymentDate?.toLocaleString() || "N/A",
+              },
+              {
+                type: "table",
+                title: "Order Summary",
+                headers: ["Product", "Quantity", "Price", "Subtotal"],
+                rows: order.items.map((item) => {
+                  const subtotal = item.price * item.quantity;
+                  return [
+                    item.product?.name || "Product",
+                    String(item.quantity),
+                    `₦${item.price}`,
+                    `₦${subtotal}`,
+                  ];
+                }),
+              },
+            ]
+          );
+        }
+      }
 
       return res.status(200).json({
         message: "Payment verified successfully",

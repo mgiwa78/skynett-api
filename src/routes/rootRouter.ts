@@ -23,7 +23,6 @@ routerRouter.use("/products", productRouter);
 routerRouter.use("/customers", customerRouter);
 routerRouter.use("/feedbacks", feedbackRouter);
 routerRouter.use("/cart", cartRouter);
-routerRouter.use("/order", productRouter);
 routerRouter.use("/gallery", gelleryRouter);
 routerRouter.use("/payments", paymentRouter);
 routerRouter.use("/projects", projectRouter);

@@ -20,7 +20,6 @@ export class CartController {
     if (req.user?.id) {
       return { customerId: req.user.id };
     }
-    // Get or create session ID
     let sessionId = req.cookies?.cartSessionId;
 
     if (!sessionId) {

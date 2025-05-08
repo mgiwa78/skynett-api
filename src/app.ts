@@ -19,6 +19,7 @@ initializeSocket(server);
 
 const whitelist = [
   "http://localhost:5173",
+  "http://localhost:5174",
   "http://localhost:5230",
   "https://skynettrenewables.com",
   "http://skynettrenewables.com",
@@ -27,10 +28,12 @@ const whitelist = [
   "http://shop.skynettrenewables.com",
   "https://shop.skynettrenewables.com",
 ];
+
 // const corsOptions = {
 //   origin: "*",
 //   credentials: true,
 // };
+
 const corsOptions = {
   origin: function (origin: any, callback: any) {
     if (!origin || whitelist.indexOf(origin) !== -1) {

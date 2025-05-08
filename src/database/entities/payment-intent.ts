@@ -26,6 +26,9 @@ export class PaymentIntent extends BaseEntity {
   @Column({ type: "json", nullable: true })
   paymentDetails: Record<string, any>;
 
+  @Column({ type: "json", nullable: true })
+  metadata: Record<string, any>;
+
   @Column({ nullable: true })
   email: string;
 

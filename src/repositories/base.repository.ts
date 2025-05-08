@@ -4,20 +4,16 @@ import {
   SelectQueryBuilder,
   EntityTarget,
   DeepPartial,
-  EntityManager,
   FindOptionsWhere,
   FindOneOptions,
-  FindManyOptions,
 } from "typeorm";
-import { snakeCase } from "typeorm/util/StringUtils";
-import { BaseEntity } from "../database/entities/base.entity";
 
 export interface PaginationOptions {
   page?: number;
   limit?: number;
   search?: string;
   sort?: string;
-  filters?: Record<string, any>;
+  filters?: any;
 }
 
 export interface PaginatedResult<T> {
@@ -25,7 +21,7 @@ export interface PaginatedResult<T> {
   total: number;
   page: number;
   limit: number;
-  totalPages: number;
+  pages: number;
 }
 
 export class BaseRepository<T> extends Repository<T> {
@@ -57,7 +53,6 @@ export class BaseRepository<T> extends Repository<T> {
 
     const queryBuilder = this.createQueryBuilder("entity");
 
-    // Apply relations
     this.defaultRelations.forEach((relation) => {
       queryBuilder.leftJoinAndSelect(`entity.${relation}`, relation);
     });
@@ -102,7 +97,7 @@ export class BaseRepository<T> extends Repository<T> {
       total,
       page,
       limit,
-      totalPages: Math.ceil(total / limit),
+      pages: Math.ceil(total / limit),
     };
   }
 

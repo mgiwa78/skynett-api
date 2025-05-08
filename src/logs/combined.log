@@ -83,3 +83,15 @@
 550 From"
 [2025-05-05 21:27:00] error: Internal Server Error - Can't send mail - all recipients were rejected: 550-"Your IP: 104.28.198.120 : Your domain skynett.com is not allowed in header
 550 From"
+[2025-05-08 09:40:14] error: Internal Server Error - Not allowed by CORS
+[2025-05-08 09:40:14] error: Internal Server Error - Not allowed by CORS
+[2025-05-08 09:40:15] error: Internal Server Error - Not allowed by CORS
+[2025-05-08 09:40:16] error: Internal Server Error - Not allowed by CORS
+[2025-05-08 09:40:20] error: Internal Server Error - Not allowed by CORS
+[2025-05-08 09:40:32] error: Internal Server Error - Not allowed by CORS
+[2025-05-08 09:44:35] error: Internal Server Error - Cannot read properties of undefined (reading 'customerId')
+[2025-05-08 09:44:36] error: Internal Server Error - Cannot read properties of undefined (reading 'customerId')
+[2025-05-08 09:44:39] error: Internal Server Error - Cannot read properties of undefined (reading 'customerId')
+[2025-05-08 09:44:42] error: Internal Server Error - Cannot read properties of undefined (reading 'customerId')
+[2025-05-08 09:44:45] error: Internal Server Error - Cannot read properties of undefined (reading 'customerId')
+[2025-05-08 09:44:51] error: Internal Server Error - Cannot read properties of undefined (reading 'customerId')

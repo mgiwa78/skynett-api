@@ -35,7 +35,6 @@ export class CartService {
       });
     }
 
-    // Ensure items array is initialized
     if (!cart.items) {
       cart.items = [];
       await this.cartRepository.updateEntity(cart.id, cart);
@@ -120,6 +119,7 @@ export class CartService {
   async clearCart(identifier: CartIdentifier): Promise<Cart> {
     const cart = await this.getOrCreateCart(identifier);
     const cartItemRepository = AppDataSource.getRepository(CartItem);
+    console.log("cart", cart);
 
     if (cart.items?.length) {
       await cartItemRepository.remove(cart.items);

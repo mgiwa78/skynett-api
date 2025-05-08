@@ -23,6 +23,7 @@ interface Config {
     user: string;
     password: string;
   };
+  clientUrl: string;
   jwtSecret: string;
 }
 
@@ -30,6 +31,7 @@ const config: Config = {
   nodeEnv: process.env.NODE_ENV || "development",
   port: parseInt(process.env.PORT || "3000", 10),
   baseUrl: process.env.API_BASE_URL || "http://localhost:3000",
+  clientUrl: process.env.CLIENT_APP_URL || "http://localhost:5174",
   db: {
     host: process.env.DB_HOST || "localhost",
     type: process.env.DB_TYPE || "mysql",

@@ -1,16 +1,35 @@
 import { Request, Response } from "express";
 import { OrderService } from "../services/order.service";
+import { CartService } from "@services/cart.service";
 
 export class OrderController {
   private orderService: OrderService;
-
+  private cartService: CartService;
   constructor() {
     this.orderService = new OrderService();
+    this.cartService = new CartService();
   }
 
   createOrder = async (req: Request, res: Response): Promise<Response> => {
-    const order = await this.orderService.createOrder(req.body);
-    return res.status(201).json(order);
+    try {
+      const sessionId = req.cookies?.cartSessionId;
+      if (!sessionId) {
+        return res.status(400).json({ message: "Cart session ID is required" });
+      }
+
+      const { ...orderData } = req.body;
+
+      const order = await this.orderService.createOrder(orderData, sessionId);
+      await this.cartService.clearCart({ sessionId });
+      return res.status(201).json(order);
+    } catch (error: any) {
+      if (error.message === "Cart is empty") {
+        return res.status(400).json({ message: error.message });
+      }
+      return res
+        .status(500)
+        .json({ message: "Failed to create order", error: error.message });
+    }
   };
 
   getOrderById = async (req: Request, res: Response): Promise<Response> => {
@@ -28,9 +47,17 @@ export class OrderController {
 
   getAllOrders = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const orders = await this.orderService.getAllOrders();
+      const { page, limit, search, sort, filters } = req.query;
+      const orders = await this.orderService.getAllOrders({
+        page: Number(page),
+        limit: Number(limit),
+        search: String(search),
+        sort: String(sort),
+        filters,
+      });
       return res.status(200).json(orders);
     } catch (err) {
+      console.log(err);
       return res
         .status(500)
         .json({ message: "Failed to fetch orders", error: err.message });
