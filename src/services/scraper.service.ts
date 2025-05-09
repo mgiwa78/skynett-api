@@ -237,17 +237,12 @@ export class ScraperService {
               }
             }
 
-            const productCode = generateProductCode();
-
             return {
               name,
-              price: price ? parseFloat(price.replace(/[^0-9.-]+/g, "")) : 0,
-              discountedPrice: discountedPrice
-                ? parseFloat(discountedPrice.replace(/[^0-9.-]+/g, ""))
-                : null,
+              price,
+              discountedPrice,
               description,
               sku,
-              productCode,
               imageUrl,
               brands,
               categories,
@@ -255,14 +250,37 @@ export class ScraperService {
             };
           });
 
+          // Generate product code if SKU is not available
+          const productCode = productData.sku || generateProductCode();
+
+          // Parse price and discountedPrice as numbers
+          let priceNum = productData.price
+            ? parseFloat(productData.price.replace(/[^0-9.-]+/g, ""))
+            : 0;
+          let discountedPriceNum = productData.discountedPrice
+            ? parseFloat(productData.discountedPrice.replace(/[^0-9.-]+/g, ""))
+            : null;
+
+          // Ensure discountedPrice is never more than or equal to price
+          if (discountedPriceNum !== null && discountedPriceNum >= priceNum) {
+            // Swap if discountedPrice is more than or equal to price
+            const temp = priceNum;
+            priceNum = discountedPriceNum;
+            discountedPriceNum = temp;
+          }
+          // If after swap, still not a discount, set to null
+          if (discountedPriceNum === null || discountedPriceNum >= priceNum) {
+            discountedPriceNum = null;
+          }
+
           // Generate hash of current product data
           const currentHash = this.generateHash({
             name: productData.name,
-            price: productData.price,
-            discountedPrice: productData.discountedPrice,
+            price: priceNum,
+            discountedPrice: discountedPriceNum,
             description: productData.description,
             sku: productData.sku,
-            productCode: productData.productCode,
+            productCode: productCode,
             imageUrl: productData.imageUrl,
             brands: productData.brands,
             categories: productData.categories,
@@ -313,11 +331,11 @@ export class ScraperService {
           const productToSave = {
             name: productData.name,
             description: productData.description || "",
-            price: productData.price,
-            discountedPrice: productData.discountedPrice,
+            price: priceNum,
+            discountedPrice: discountedPriceNum,
             image: productData.imageUrl,
             stock: 0,
-            productCode: productData.productCode,
+            productCode: productCode,
             status: ProductStatus.SCRAPED,
             details: productData.additionalDetails,
             scrapedHash: currentHash,

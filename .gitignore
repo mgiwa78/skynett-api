@@ -12,7 +12,7 @@ dist
 /build
 /dist
 uploads
-src/logs
+/src/logs
 .env
 .env.production
 
