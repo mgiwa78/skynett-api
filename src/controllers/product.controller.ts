@@ -15,7 +15,7 @@ export class ProductController {
       const { image, otherImages, ...productData } = req.body;
 
       if (image) {
-        const imagePath = await FileService.saveImage(image);
+        const imagePath = await FileService.saveImage(image, "product");
         productData.image = imagePath;
       }
 
@@ -23,7 +23,7 @@ export class ProductController {
         const otherImagesPaths = await Promise.all(
           otherImages.map(async (img) => {
             if (img) {
-              return await FileService.saveImage(img);
+              return await FileService.saveImage(img, "product");
             }
             return null;
           })

@@ -32,10 +32,13 @@ export class FileService {
 
   private static readonly MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
-  static async saveImage(base64String: string): Promise<string> {
+  static async saveImage(
+    base64String: string,
+    uploadDir: string = this.UPLOAD_DIR
+  ): Promise<string> {
     return this.saveFile(
       base64String,
-      this.UPLOAD_DIR,
+      uploadDir,
       this.ALLOWED_IMAGE_MIME_TYPES
     );
   }

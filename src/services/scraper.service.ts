@@ -6,11 +6,22 @@ import { Brand } from "@entities/brand";
 import logger from "@utils/logger";
 import crypto from "crypto";
 import { generateProductCode } from "@utils/helpers";
+import fs from "fs";
+import path from "path";
+import https from "https";
 
 export class ScraperService {
   private productRepository = AppDataSource.getRepository(Product);
   private categoryRepository = AppDataSource.getRepository(Category);
   private brandRepository = AppDataSource.getRepository(Brand);
+  private readonly uploadsDir = path.join(process.cwd(), "uploads", "products");
+
+  constructor() {
+    // Ensure uploads directory exists
+    if (!fs.existsSync(this.uploadsDir)) {
+      fs.mkdirSync(this.uploadsDir, { recursive: true });
+    }
+  }
 
   private generateHash(data: any): string {
     const stringified = JSON.stringify(data);
@@ -22,6 +33,43 @@ export class ScraperService {
       Buffer.from(hash1, "hex"),
       Buffer.from(hash2, "hex")
     );
+  }
+
+  private async downloadImage(
+    url: string,
+    productCode: string
+  ): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const fileName = `${productCode}-${Date.now()}.jpg`;
+      const filePath = path.join(this.uploadsDir, fileName);
+      const file = fs.createWriteStream(filePath);
+
+      https
+        .get(url, (response) => {
+          if (response.statusCode !== 200) {
+            reject(
+              new Error(`Failed to download image: ${response.statusCode}`)
+            );
+            return;
+          }
+
+          response.pipe(file);
+
+          file.on("finish", () => {
+            file.close();
+            resolve(`/uploads/products/${fileName}`);
+          });
+
+          file.on("error", (err) => {
+            fs.unlink(filePath, () => {}); // Delete the file if there's an error
+            reject(err);
+          });
+        })
+        .on("error", (err) => {
+          fs.unlink(filePath, () => {}); // Delete the file if there's an error
+          reject(err);
+        });
+    });
   }
 
   async scrapeProducts() {
@@ -323,6 +371,23 @@ export class ScraperService {
             })
           );
 
+          // Download and save the image
+          let localImagePath = null;
+          if (productData.imageUrl) {
+            try {
+              localImagePath = await this.downloadImage(
+                productData.imageUrl,
+                productCode
+              );
+              logger.info(`Downloaded image for product ${productData.name}`);
+            } catch (error) {
+              logger.error(
+                `Failed to download image for product ${productData.name}:`,
+                error
+              );
+            }
+          }
+
           // Save to database
           const existingProduct = await this.productRepository.findOne({
             where: [{ name: productData.name }],
@@ -333,7 +398,7 @@ export class ScraperService {
             description: productData.description || "",
             price: priceNum,
             discountedPrice: discountedPriceNum,
-            image: productData.imageUrl,
+            image: localImagePath || productData.imageUrl, // Use local path if available, fallback to URL
             stock: 0,
             productCode: productCode,
             status: ProductStatus.SCRAPED,
